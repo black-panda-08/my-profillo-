@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chellaguru G | Cybersecurity, Frontend & Android Developer</title>
+  <meta name="description" content="Portfolio of Chellaguru G showcasing cybersecurity, frontend development, and Android app development.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#050b14;
+      --bg2:#07111f;
+      --card:rgba(255,255,255,.05);
+      --card2:rgba(255,255,255,.03);
+      --text:#ebf3ff;
+      --muted:#9bb0cf;
+      --accent:#2ee6a6;
+      --accent2:#5aa7ff;
+      --accent3:#a855f7;
+      --border:rgba(255,255,255,.08);
+      --shadow:0 20px 60px rgba(0,0,0,.38);
+      --radius:24px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:'Inter',system-ui,sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(90,167,255,.22), transparent 32%),
+        radial-gradient(circle at top right, rgba(46,230,166,.18), transparent 28%),
+        radial-gradient(circle at center, rgba(168,85,247,.08), transparent 30%),
+        linear-gradient(180deg, var(--bg2), var(--bg));
+      overflow-x:hidden;
+    }
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%;display:block}
+    .container{width:min(1180px,92%);margin:auto}
+
+    .nav{
+      position:sticky;
+      top:0;
+      z-index:100;
+      backdrop-filter:blur(18px);
+      background:rgba(5,11,20,.68);
+      border-bottom:1px solid var(--border);
+    }
+    .nav-inner{
+      min-height:78px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:18px;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      font-weight:900;
+      letter-spacing:.2px;
+    }
+    .brand-mark{
+      width:42px;height:42px;
+      border-radius:14px;
+      background:linear-gradient(135deg,var(--accent),var(--accent2));
+      display:grid;place-items:center;
+      color:#04111b;
+      font-weight:900;
+      box-shadow:0 10px 30px rgba(46,230,166,.18);
+    }
+    .brand small{display:block;color:var(--muted);font-weight:600;margin-top:2px}
+    .nav-links{
+      display:flex;
+      align-items:center;
+      gap:22px;
+      flex-wrap:wrap;
+    }
+    .nav-links a{
+      color:var(--muted);
+      font-weight:600;
+      transition:.2s ease;
+    }
+    .nav-links a:hover,.nav-links a.active{color:var(--text)}
+    .nav-cta{
+      padding:12px 16px;
+      border-radius:14px;
+      background:linear-gradient(135deg,var(--accent),#7cf2cd);
+      color:#04111b;
+      font-weight:800;
+      box-shadow:0 12px 30px rgba(46,230,166,.15);
+    }
+    .menu-btn{
+      display:none;
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.04);
+      color:var(--text);
+      border-radius:14px;
+      padding:10px 14px;
+      font-weight:700;
+    }
+
+    .hero{
+      position:relative;
+      padding:92px 0 56px;
+    }
+    .hero-grid{
+      display:grid;
+      grid-template-columns:1.1fr .9fr;
+      gap:30px;
+      align-items:center;
+    }
+    .eyebrow{
+      display:inline-flex;
+      gap:10px;
+      align-items:center;
+      padding:10px 14px;
+      border:1px solid var(--border);
+      border-radius:999px;
+      background:rgba(255,255,255,.03);
+      color:var(--muted);
+      font-size:.92rem;
+      box-shadow:var(--shadow);
+    }
+    .eyebrow i{
+      width:9px;height:9px;border-radius:50%;
+      background:linear-gradient(135deg,var(--accent),var(--accent2));
+      display:inline-block;
+      box-shadow:0 0 20px rgba(46,230,166,.45);
+    }
+    h1{
+      margin:18px 0 14px;
+      font-size:clamp(2.7rem,6vw,5.4rem);
+      line-height:1;
+      letter-spacing:-.04em;
+    }
+    .typing{
+      background:linear-gradient(90deg,var(--text),#9ae7ff 35%,#8cffa9 70%,var(--text));
+      -webkit-background-clip:text;
+      background-clip:text;
+      color:transparent;
+    }
+    .lead{
+      margin:0;
+      color:var(--muted);
+      font-size:1.08rem;
+      line-height:1.8;
+      max-width:65ch;
+    }
+    .hero-actions{
+      display:flex;
+      gap:14px;
+      flex-wrap:wrap;
+      margin-top:28px;
+    }
+    .btn{
+      padding:14px 18px;
+      border-radius:16px;
+      font-weight:800;
+      border:1px solid var(--border);
+      transition:.25s ease;
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      cursor:pointer;
+      font-family:inherit;
+      font-size:1rem;
+    }
+    .btn:hover{transform:translateY(-3px)}
+    .btn-primary{
+      background:linear-gradient(135deg,var(--accent),#80f5d1);
+      color:#05111a;
+      box-shadow:0 18px 35px rgba(46,230,166,.16);
+    }
+    .btn-secondary{
+      background:rgba(255,255,255,.04);
+      color:var(--text);
+    }
+    .btn:disabled{opacity:.7;cursor:not-allowed;transform:none}
+
+    .hero-panel{
+      position:relative;
+      min-height:520px;
+      padding:22px;
+    }
+    .glass-card{
+      position:absolute;
+      inset:auto;
+      background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.03));
+      border:1px solid var(--border);
+      border-radius:26px;
+      box-shadow:var(--shadow);
+      backdrop-filter:blur(14px);
+    }
+    .main-card{
+      inset:0;
+      padding:24px;
+      overflow:hidden;
+    }
+    .mini-card{
+      padding:16px 18px;
+      min-width:180px;
+    }
+    .mini-card.top-left{bottom:100px;left:-8px;animation:float 5s ease-in-out infinite}
+    .mini-card.top-right{bottom:100px;right:-8px;animation:float 6s ease-in-out infinite}
+    .mini-card.bottom-left{bottom:-16px;left:-8px;animation:float 6.5s ease-in-out infinite}
+    .mini-card.bottom-right{bottom:-16px;right:-8px;animation:float 5.8s ease-in-out infinite}
+
+    .profile-top{
+      display:flex;
+      align-items:center;
+      gap:16px;
+      margin-bottom:22px;
+    }
+    .avatar{
+      width:92px;height:92px;
+      border-radius:24px;
+      background:linear-gradient(135deg,var(--accent2),var(--accent),var(--accent3));
+      display:grid;
+      place-items:center;
+      font-size:2rem;
+      font-weight:900;
+      color:#04111b;
+      box-shadow:0 18px 40px rgba(90,167,255,.18);
+    }
+    .profile-top h3{margin:0 0 6px;font-size:1.2rem}
+    .profile-top p{margin:0;color:var(--muted)}
+    .signal{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 12px;
+      border-radius:999px;
+      background:rgba(46,230,166,.08);
+      color:#89ffd8;
+      border:1px solid rgba(46,230,166,.18);
+      font-size:.88rem;
+      margin-top:14px;
+    }
+    .signal span{
+      width:8px;height:8px;border-radius:50%;
+      background:var(--accent);
+      box-shadow:0 0 16px rgba(46,230,166,.7);
+    }
+    .stats{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:14px;
+      margin-top:18px;
+    }
+    .stat{
+      padding:16px;
+      border-radius:18px;
+      background:rgba(255,255,255,.04);
+      border:1px solid var(--border);
+    }
+    .stat strong{display:block;font-size:1.2rem}
+    .stat span{color:var(--muted);font-size:.9rem}
+
+    section{padding:72px 0}
+    .section-head{
+      display:flex;
+      justify-content:space-between;
+      align-items:end;
+      gap:18px;
+      margin-bottom:26px;
+    }
+    .section-head h2{
+      margin:0;
+      font-size:clamp(1.7rem,3vw,2.5rem);
+      letter-spacing:-.03em;
+    }
+    .section-head p{
+      margin:0;
+      color:var(--muted);
+      max-width:60ch;
+      line-height:1.7;
+    }
+
+    .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    .grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+    .card{
+      padding:24px;
+      border-radius:var(--radius);
+      background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.03));
+      border:1px solid var(--border);
+      box-shadow:var(--shadow);
+    }
+    .card h3{margin:0 0 10px;font-size:1.2rem}
+    .muted{color:var(--muted);line-height:1.75}
+    .pill-row{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:16px;
+    }
+    .pill{
+      padding:10px 12px;
+      border-radius:999px;
+      background:rgba(255,255,255,.04);
+      border:1px solid var(--border);
+      color:#dfeaff;
+      font-size:.92rem;
+    }
+
+    .about-box{
+      display:grid;
+      grid-template-columns:1.05fr .95fr;
+      gap:18px;
+    }
+
+    .services{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:18px;
+    }
+    .service-icon{
+      width:48px;height:48px;
+      border-radius:16px;
+      display:grid;
+      place-items:center;
+      margin-bottom:14px;
+      background:linear-gradient(135deg,rgba(46,230,166,.16),rgba(90,167,255,.16));
+      border:1px solid var(--border);
+      font-size:1.3rem;
+    }
+
+    .timeline{
+      display:grid;
+      gap:16px;
+    }
+    .timeline-item{
+      position:relative;
+      padding-left:22px;
+    }
+    .timeline-item:before{
+      content:"";
+      position:absolute;
+      left:6px;
+      top:8px;
+      width:10px;height:10px;
+      border-radius:50%;
+      background:linear-gradient(135deg,var(--accent),var(--accent2));
+    }
+    .timeline-item:after{
+      content:"";
+      position:absolute;
+      left:10px;
+      top:22px;
+      bottom:-16px;
+      width:1px;
+      background:rgba(255,255,255,.08);
+    }
+    .timeline-item:last-child:after{display:none}
+
+    .project-top{
+      display:flex;
+      justify-content:space-between;
+      gap:14px;
+      align-items:center;
+      margin-bottom:14px;
+    }
+    .project-badge{
+      padding:8px 12px;
+      border-radius:999px;
+      background:rgba(90,167,255,.11);
+      border:1px solid rgba(90,167,255,.2);
+      color:#b7d4ff;
+      font-size:.85rem;
+      white-space:nowrap;
+    }
+    .project-links{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:16px;
+    }
+    .link-btn{
+      padding:10px 12px;
+      border-radius:12px;
+      background:rgba(255,255,255,.04);
+      border:1px solid var(--border);
+      color:var(--text);
+      font-weight:700;
+      font-size:.9rem;
+    }
+
+    .contact-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:18px;
+    }
+    .contact-list{
+      display:grid;
+      gap:12px;
+    }
+    .contact-link{
+      display:flex;
+      justify-content:space-between;
+      gap:18px;
+      padding:16px 18px;
+      border-radius:16px;
+      background:rgba(255,255,255,.04);
+      border:1px solid var(--border);
+    }
+    .footer{
+      padding:30px 0 44px;
+      text-align:center;
+      color:var(--muted);
+    }
+
+    .reveal{
+      opacity:0;
+      transform:translateY(16px);
+      transition:.7s ease;
+    }
+    .reveal.show{
+      opacity:1;
+      transform:none;
+    }
+
+    .particles{
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      z-index:-1;
+      opacity:.35;
+      background-image:
+        radial-gradient(circle at 15% 25%, rgba(90,167,255,.20) 0 2px, transparent 3px),
+        radial-gradient(circle at 70% 15%, rgba(46,230,166,.16) 0 2px, transparent 3px),
+        radial-gradient(circle at 78% 70%, rgba(168,85,247,.16) 0 2px, transparent 3px),
+        radial-gradient(circle at 25% 80%, rgba(255,255,255,.10) 0 1.5px, transparent 3px);
+    }
+
+    @keyframes float{
+      0%,100%{transform:translateY(0)}
+      50%{transform:translateY(-10px)}
+    }
+
+    @media (max-width:980px){
+      .hero-grid,.about-box,.grid-3,.grid-2,.services,.contact-grid{grid-template-columns:1fr}
+      .hero-panel{min-height:420px}
+      .section-head{flex-direction:column;align-items:flex-start}
+    }
+    @media (max-width:820px){
+      .menu-btn{display:block}
+      .nav-links{
+        display:none;
+        position:absolute;
+        top:78px;
+        left:4%;
+        right:4%;
+        flex-direction:column;
+        align-items:flex-start;
+        padding:16px;
+        background:rgba(5,11,20,.96);
+        border:1px solid var(--border);
+        border-radius:18px;
+      }
+      .nav-links.open{display:flex}
+      .nav-cta{width:100%;text-align:center}
+      .hero{padding-top:72px}
+      .mini-card{display:none}
+    }
+  </style>
+</head>
+<body>
+  <div class="particles"></div>
+
+  <header class="nav">
+    <div class="container nav-inner">
+      <a class="brand" href="#home">
+        <span class="brand-mark">CG</span>
+        <span>
+          Chellaguru G
+          <small>Cybersecurity • Frontend • Android</small>
+        </span>
+      </a>
+
+      <button class="menu-btn" id="menuBtn">Menu</button>
+
+      <nav class="nav-links" id="navLinks">
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#skills">Skills</a>
+        <a href="#services">Services</a>
+        <a href="#experience">Experience</a>
+        <a href="#projects">Projects</a>
+        <a href="#android">Android</a>
+        <a href="#frontend">Frontend</a>
+        <a href="#education">Education</a>
+        <a href="#contact">Contact</a>
+        <a class="nav-cta" href="#contact">Hire Me</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="home" class="hero container">
+    <div class="hero-grid">
+      <div class="reveal">
+        <div class="eyebrow"><i></i> Available for internships and freelance work</div>
+        <h1><span class="typing">Cybersecurity, Frontend & Android Developer</span></h1>
+        <p class="lead">
+          I build secure, responsive, and modern digital experiences across web and mobile.
+          My focus areas include penetration testing, web vulnerability analysis, frontend interfaces,
+          and Android app development.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#projects">View Projects</a>
+          <button class="btn btn-secondary" id="downloadResumeBtn" onclick="downloadResume()">⬇ Download Resume</button>
+        </div>
+      </div>
+
+      <div class="hero-panel reveal">
+        <div class="glass-card main-card">
+          <div class="profile-top">
+            <div class="avatar">CG</div>
+            <div>
+              <h3>Chellaguru G</h3>
+              <p>Information Technology Student</p>
+              <div class="signal"><span></span> Open to Cybersecurity / Frontend / Android roles</div>
+            </div>
+          </div>
+
+          <div class="stats">
+            <div class="stat"><strong>2027</strong><span>Expected graduation</span></div>
+            <div class="stat"><strong>2025</strong><span>Security internship</span></div>
+            <div class="stat"><strong>3</strong><span>Core domains</span></div>
+            <div class="stat"><strong>8+</strong><span>Tools & languages</span></div>
+          </div>
+        </div>
+
+        <div class="glass-card mini-card top-left">
+          <strong>Cybersecurity</strong>
+          <p class="muted" style="margin:6px 0 0">Burp Suite • Nessus • Metasploit</p>
+        </div>
+        <div class="glass-card mini-card top-right">
+          <strong>Frontend</strong>
+          <p class="muted" style="margin:6px 0 0">HTML • CSS • JS • Shell</p>
+        </div>
+        <div class="glass-card mini-card bottom-left">
+          <strong>Android</strong>
+          <p class="muted" style="margin:6px 0 0">App UI • Java/Kotlin learning</p>
+        </div>
+        <div class="glass-card mini-card bottom-right">
+          <strong>Projects</strong>
+          <p class="muted" style="margin:6px 0 0">Portfolio • Web Security • Apps</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <section id="about" class="container">
+    <div class="section-head reveal">
+      <h2>About Me</h2>
+      <p>A short professional story that positions you as a multi-skill developer with security strength.</p>
+    </div>
+    <div class="about-box">
+      <div class="card reveal">
+        <h3>Professional Summary</h3>
+        <p class="muted">
+          B.Tech Information Technology student with a strong interest in cybersecurity, frontend development,
+          and Android app development. I enjoy building user-focused interfaces, exploring secure coding practices,
+          and learning practical tools through hands-on projects.
+        </p>
+        <div class="pill-row">
+          <span class="pill">Problem Solver</span>
+          <span class="pill">Fast Learner</span>
+          <span class="pill">Team Player</span>
+          <span class="pill">Detail Oriented</span>
+        </div>
+      </div>
+      <div class="card reveal">
+        <h3>Current Focus</h3>
+        <p class="muted">
+          Building a strong portfolio that combines web design, mobile development, and cybersecurity projects.
+          I aim to create clean, responsive, and practical solutions that look professional and work well.
+        </p>
+        <div class="pill-row">
+          <span class="pill">Web Security</span>
+          <span class="pill">Responsive UI</span>
+          <span class="pill">Android UI</span>
+          <span class="pill">Portfolio Design</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills" class="container">
+    <div class="section-head reveal">
+      <h2>Skills</h2>
+      <p>Show all three identity areas clearly so recruiters immediately understand your range.</p>
+    </div>
+
+    <div class="grid-3">
+      <div class="card reveal">
+        <h3>Cybersecurity</h3>
+        <p class="muted">Penetration testing, vulnerability assessment, web security, debugging, report writing.</p>
+        <div class="pill-row">
+          <span class="pill">Kali Linux</span>
+          <span class="pill">Burp Suite</span>
+          <span class="pill">Nessus</span>
+          <span class="pill">Metasploit</span>
+          <span class="pill">Nmap</span>
+        </div>
+      </div>
+
+      <div class="card reveal">
+        <h3>Frontend Development</h3>
+        <p class="muted">Modern, responsive websites with smooth interactions and clean UI structure.</p>
+        <div class="pill-row">
+          <span class="pill">HTML</span>
+          <span class="pill">CSS</span>
+          <span class="pill">JavaScript</span>
+          <span class="pill">Shell Script</span>
+          <span class="pill">Responsive Design</span>
+          <span class="pill">UI Components</span>
+        </div>
+      </div>
+
+      <div class="card reveal">
+        <h3>Android Development</h3>
+        <p class="muted">Mobile app design, layouts, app logic, and building simple utility-style applications.</p>
+        <div class="pill-row">
+          <span class="pill">Android UI</span>
+          <span class="pill">App Logic</span>
+          <span class="pill">Java</span>
+          <span class="pill">Kotlin</span>
+          <span class="pill">Mobile Design</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="services" class="container">
+    <div class="section-head reveal">
+      <h2>Services</h2>
+      <p>These are the kinds of work this portfolio should communicate clearly.</p>
+    </div>
+
+    <div class="services">
+      <div class="card reveal">
+        <div class="service-icon">🛡️</div>
+        <h3>Security Analysis</h3>
+        <p class="muted">Basic vulnerability checking, lab testing, and security documentation for web applications.</p>
+      </div>
+      <div class="card reveal">
+        <div class="service-icon">💻</div>
+        <h3>Frontend UI</h3>
+        <p class="muted">Responsive landing pages, personal websites, and modern interface components.</p>
+      </div>
+      <div class="card reveal">
+        <div class="service-icon">📱</div>
+        <h3>Android Apps</h3>
+        <p class="muted">Simple mobile applications, clean layouts, and utility-style app ideas for Android devices.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="experience" class="container">
+    <div class="section-head reveal">
+      <h2>Experience</h2>
+      <p>Turn internship experience into strong, recruiter-friendly achievements.</p>
+    </div>
+    <div class="card timeline reveal">
+      <div class="timeline-item">
+        <h3>Security Analyst Intern — YHills | TechMaghi</h3>
+        <p class="muted">2025</p>
+        <p class="muted">
+          Completed hands-on training in ethical hacking and cybersecurity, focusing on penetration testing and vulnerability assessment.
+        </p>
+      </div>
+      <div class="timeline-item">
+        <p class="muted">
+          Worked with Windows and Ubuntu password testing, Metasploit exploitation, Nessus Pro and Spider scans,
+          Burp Suite web testing, and Kali Linux environments.
+        </p>
+      </div>
+      <div class="timeline-item">
+        <p class="muted">
+          Used HTML, JavaScript, Python, C, and C++ for scripting and technical understanding, and prepared vulnerability reports using Microsoft Office tools.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects" class="container">
+    <div class="section-head reveal">
+      <h2>Featured Projects</h2>
+      <p>Use this space to show both web and mobile work with a premium layout.</p>
+    </div>
+
+    <div class="grid-2">
+      <div class="card reveal">
+        <div class="project-top">
+          <h3>PhishGuard</h3>
+          <span class="project-badge">Cybersecurity / Web</span>
+        </div>
+        <p class="muted">
+          A web security project that demonstrates awareness, secure thinking, and practical cybersecurity learning.
+        </p>
+        <div class="pill-row">
+          <span class="pill">Web Security</span>
+          <span class="pill">GitHub Pages</span>
+          <span class="pill">Awareness Tool</span>
+        </div>
+        <div class="project-links">
+          <a class="link-btn" href="https://black-panda-08.github.io/phishguard/" target="_blank" rel="noreferrer">Live Demo</a>
+          <a class="link-btn" href="https://github.com/black-panda-08" target="_blank" rel="noreferrer">GitHub</a>
+        </div>
+      </div>
+
+      <div class="card reveal">
+        <div class="project-top">
+          <h3>Portfolio Website</h3>
+          <span class="project-badge">Frontend</span>
+        </div>
+        <p class="muted">
+          A modern responsive portfolio design showcasing skills, experience, and developer identity in one place.
+        </p>
+        <div class="pill-row">
+          <span class="pill">HTML</span>
+          <span class="pill">CSS</span>
+          <span class="pill">JavaScript</span>
+        </div>
+        <div class="project-links">
+          <a class="link-btn" href="#contact">Contact</a>
+          <a class="link-btn" href="#frontend">View Frontend Work</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="android" class="container">
+    <div class="section-head reveal">
+      <h2>Android App Development</h2>
+      <p>A dedicated section for your mobile work makes the portfolio feel much more complete.</p>
+    </div>
+
+    <div class="grid-2">
+      <div class="card reveal">
+        <h3>Mobile App Concepts</h3>
+        <p class="muted">
+          Add your Android app ideas, UI screenshots, or prototype concepts here. This section is ideal for login screens,
+          dashboard pages, and simple utility apps.
+        </p>
+        <div class="pill-row">
+          <span class="pill">Android Studio</span>
+          <span class="pill">App UI</span>
+          <span class="pill">Kotlin</span>
+          <span class="pill">Java</span>
+        </div>
+      </div>
+
+      <div class="card reveal">
+        <h3>Recommended Android Projects</h3>
+        <p class="muted">
+          • Expense tracker.<br>
+          • To-do app.<br>
+          • Student helper app.<br>
+          • Security awareness mobile app.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section id="frontend" class="container">
+    <div class="section-head reveal">
+      <h2>Frontend Developer Work</h2>
+      <p>This section helps position you as a website builder as well as a security learner.</p>
+    </div>
+
+    <div class="grid-3">
+      <div class="card reveal">
+        <h3>Responsive Landing Pages</h3>
+        <p class="muted">Clean homepages with modern typography, spacing, and mobile-first layout.</p>
+      </div>
+      <div class="card reveal">
+        <h3>Personal Portfolios</h3>
+        <p class="muted">Professional websites that combine identity, skills, and project showcases.</p>
+      </div>
+      <div class="card reveal">
+        <h3>UI Components</h3>
+        <p class="muted">Cards, navbars, buttons, forms, and hero sections for practical frontend practice.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="achievements" class="container">
+    <div class="section-head reveal">
+      <h2>Achievements</h2>
+      <p>Keep this short and sharp for fast reading.</p>
+    </div>
+    <div class="grid-2">
+      <div class="card reveal">
+        <h3>Ethical Hacking Achievement</h3>
+        <p class="muted">YHills • 2025</p>
+      </div>
+      <div class="card reveal">
+        <h3>Cyber Security Achievement</h3>
+        <p class="muted">Tech Maghi • 2025</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="education" class="container">
+    <div class="section-head reveal">
+      <h2>Education</h2>
+      <p>Simple timeline styling keeps the profile polished and easy to skim.</p>
+    </div>
+    <div class="card timeline reveal">
+      <div class="timeline-item">
+        <h3>B.Tech Information Technology</h3>
+        <p class="muted">AAA College of Engineering and Technology • 2027</p>
+      </div>
+      <div class="timeline-item">
+        <h3>SSLC</h3>
+        <p class="muted">Hindu Higher Secondary School, Watrap • 2023</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="container">
+    <div class="section-head reveal">
+      <h2>Contact</h2>
+      <p>Make your contact section clear, professional, and easy to reach.</p>
+    </div>
+
+    <div class="contact-grid">
+      <div class="card reveal">
+        <h3>Get In Touch</h3>
+        <p class="muted">
+          Open to internship opportunities, frontend projects, Android app development work, and cybersecurity-related collaboration.
+        </p>
+        <div class="pill-row">
+          <span class="pill">Mumbai, Maharashtra, India</span>
+          <span class="pill">Open to work</span>
+        </div>
+      </div>
+
+      <div class="card contact-list reveal">
+        <a class="contact-link" href="mailto:g.chellaguru002@gmail.com">
+          <span>Email</span><span>g.chellaguru002@gmail.com</span>
+        </a>
+        <a class="contact-link" href="tel:+916380180705">
+          <span>Phone</span><span>638-018-0705</span>
+        </a>
+        <a class="contact-link" href="https://www.linkedin.com/in/chellaguru-g-159767342" target="_blank" rel="noreferrer">
+          <span>LinkedIn</span><span>View Profile</span>
+        </a>
+        <a class="contact-link" href="https://github.com/black-panda-08" target="_blank" rel="noreferrer">
+          <span>GitHub</span><span>black-panda-08</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="container footer">
+    <p>© 2026 Chellaguru G. Built as a modern cybersecurity, frontend, and Android portfolio.</p>
+  </footer>
+
+  <script>
+    function downloadResume() {
+      const btn = document.getElementById('downloadResumeBtn');
+      const original = btn.innerHTML;
+      btn.innerHTML = '⏳ Downloading...';
+      btn.disabled = true;
+
+      const a = document.createElement('a');
+      a.href = 'Chellaguru_G_Resume.pdf';
+      a.download = 'Chellaguru_G_Resume.pdf';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+
+      btn.innerHTML = '✅ Downloaded!';
+      setTimeout(() => { btn.innerHTML = original; btn.disabled = false; }, 2500);
+    }
+
+    const menuBtn = document.getElementById('menuBtn');
+    const navLinks = document.getElementById('navLinks');
+
+    menuBtn?.addEventListener('click', () => navLinks.classList.toggle('open'));
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      link.addEventListener('click', () => navLinks.classList.remove('open'));
+    });
+
+    const sections = document.querySelectorAll('section, main');
+    const links = document.querySelectorAll('.nav-links a');
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          links.forEach(link => {
+            link.classList.toggle('active', link.getAttribute('href') === '#' + entry.target.id);
+          });
+        }
+      });
+    }, { threshold: 0.45 });
+
+    sections.forEach(section => {
+      if (section.id) observer.observe(section);
+    });
+
+    const revealObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('show');
+      });
+    }, { threshold: 0.15 });
+
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+  </script>
+</body>
+</html>
