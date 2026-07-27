@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Chellaguru G | Cybersecurity, Frontend & Android Developer</title>
-  <meta name="description" content="Portfolio of Chellaguru G showcasing cybersecurity, frontend development, and Android app development.">
+  <title>Chellaguru G | Web & App Developer | Cybersecurity Pentester</title>
+  <meta name="description" content="Portfolio of Chellaguru G showcasing web & app development and cybersecurity pentesting.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -214,16 +214,34 @@
       gap:16px;
       margin-bottom:22px;
     }
-    .avatar{
-      width:92px;height:92px;
-      border-radius:24px;
-      background:linear-gradient(135deg,var(--accent2),var(--accent),var(--accent3));
-      display:grid;
-      place-items:center;
-      font-size:2rem;
-      font-weight:900;
-      color:#04111b;
-      box-shadow:0 18px 40px rgba(90,167,255,.18);
+    .avatar-wrapper {
+      position: relative;
+      width: 92px; height: 92px;
+      border-radius: 24px;
+      padding: 3px;
+      background: linear-gradient(135deg, var(--accent2), var(--accent), var(--accent3));
+      background-size: 200% 200%;
+      animation: gradientShift 3s ease infinite;
+      box-shadow: 0 18px 40px rgba(90,167,255,.2);
+      transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      transform-style: preserve-3d;
+    }
+    .avatar-wrapper:hover {
+      transform: scale(1.1) rotate(5deg) translateZ(50px);
+      box-shadow: 0 25px 50px rgba(46,230,166,.4);
+    }
+    .avatar-wrapper img {
+      width: 100%; height: 100%;
+      border-radius: 21px;
+      object-fit: cover;
+      display: block;
+      background: #05111a;
+      transform: translateZ(20px);
+    }
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
     .profile-top h3{margin:0 0 6px;font-size:1.2rem}
     .profile-top p{margin:0;color:var(--muted)}
@@ -421,17 +439,62 @@
       transform:none;
     }
 
-    .particles{
-      position:fixed;
-      inset:0;
-      pointer-events:none;
-      z-index:-1;
-      opacity:.35;
-      background-image:
-        radial-gradient(circle at 15% 25%, rgba(90,167,255,.20) 0 2px, transparent 3px),
-        radial-gradient(circle at 70% 15%, rgba(46,230,166,.16) 0 2px, transparent 3px),
-        radial-gradient(circle at 78% 70%, rgba(168,85,247,.16) 0 2px, transparent 3px),
-        radial-gradient(circle at 25% 80%, rgba(255,255,255,.10) 0 1.5px, transparent 3px);
+    #cyberCanvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      z-index: -1;
+      pointer-events: none;
+    }
+    .cursor-glow {
+      position: fixed;
+      top: 0; left: 0;
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(46,230,166,0.12) 0%, transparent 70%);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      z-index: 9999;
+      mix-blend-mode: screen;
+      transition: width 0.2s, height 0.2s;
+    }
+    .cyber-glitch {
+      position: relative;
+      display: inline-block;
+    }
+    .cyber-glitch::before, .cyber-glitch::after {
+      content: attr(data-text);
+      position: absolute;
+      top: 0; left: 0;
+      opacity: 0.8;
+    }
+    .cyber-glitch::before {
+      color: #0ff;
+      z-index: -1;
+      transform: translate(-2px, 2px);
+      animation: glitch-anim 2.5s infinite linear alternate-reverse;
+    }
+    .cyber-glitch::after {
+      color: #f0f;
+      z-index: -2;
+      transform: translate(2px, -2px);
+      animation: glitch-anim2 3s infinite linear alternate-reverse;
+    }
+    @keyframes glitch-anim {
+      0% { clip-path: inset(20% 0 80% 0); }
+      20% { clip-path: inset(60% 0 10% 0); }
+      40% { clip-path: inset(40% 0 50% 0); }
+      60% { clip-path: inset(80% 0 5% 0); }
+      80% { clip-path: inset(10% 0 70% 0); }
+      100% { clip-path: inset(30% 0 20% 0); }
+    }
+    @keyframes glitch-anim2 {
+      0% { clip-path: inset(10% 0 60% 0); }
+      20% { clip-path: inset(80% 0 5% 0); }
+      40% { clip-path: inset(30% 0 20% 0); }
+      60% { clip-path: inset(70% 0 10% 0); }
+      80% { clip-path: inset(20% 0 50% 0); }
+      100% { clip-path: inset(50% 0 30% 0); }
     }
 
     @keyframes float{
@@ -464,10 +527,84 @@
       .hero{padding-top:72px}
       .mini-card{display:none}
     }
+
+    /* Cyber Terminal Indicator */
+    .cyber-terminal {
+      margin-top: 24px;
+      background: rgba(5, 11, 20, 0.95);
+      border: 1px solid rgba(46, 230, 166, 0.2);
+      font-family: 'Fira Code', 'Courier New', monospace;
+      font-size: 0.82rem;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 0 20px rgba(46, 230, 166, 0.05);
+      text-align: left;
+    }
+    .terminal-header {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 8px 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .terminal-header .dot {
+      width: 10px; height: 10px; border-radius: 50%;
+    }
+    .dot.red { background: #ff5f56; }
+    .dot.yellow { background: #ffbd2e; }
+    .dot.green { background: #27c93f; }
+    .terminal-title {
+      margin-left: 10px;
+      color: #8892b0;
+      font-size: 0.75rem;
+    }
+    .terminal-body {
+      padding: 12px;
+      color: #2ee6a6;
+      height: 110px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .terminal-line {
+      opacity: 0;
+      animation: fadeIn 0.2s forwards;
+    }
+    .terminal-line.error { color: #ff5f56; }
+    .terminal-line.warning { color: #ffbd2e; }
+    .terminal-line.success { color: #a855f7; }
+    .terminal-cursor {
+      display: inline-block;
+      width: 8px; height: 15px;
+      background: #2ee6a6;
+      animation: blink 1s step-end infinite;
+      vertical-align: middle;
+      margin-left: 4px;
+    }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    /* 3D Interactive Styles */
+    .card, .glass-card {
+      transform-style: preserve-3d;
+      transform: perspective(1000px);
+    }
+    .card > *, .glass-card > * {
+      transform: translateZ(30px);
+    }
+
+    .btn {
+      transform-style: preserve-3d;
+    }
+    .btn:hover {
+      transform: translateY(-3px) translateZ(20px);
+    }
   </style>
 </head>
 <body>
-  <div class="particles"></div>
+  <div class="cursor-glow"></div>
+  <canvas id="cyberCanvas"></canvas>
 
   <header class="nav">
     <div class="container nav-inner">
@@ -475,7 +612,7 @@
         <span class="brand-mark">CG</span>
         <span>
           Chellaguru G
-          <small>Cybersecurity • Frontend • Android</small>
+          <small>Web & App Developer • Cybersecurity Pentester</small>
         </span>
       </a>
 
@@ -501,7 +638,7 @@
     <div class="hero-grid">
       <div class="reveal">
         <div class="eyebrow"><i></i> Available for internships and freelance work</div>
-        <h1><span class="typing">Cybersecurity, Frontend & Android Developer</span></h1>
+        <h1><span class="typing">Web & App Developer<br><span style="font-size: 0.7em; color: var(--accent);" class="cyber-glitch" data-text="Cybersecurity Pentester">Cybersecurity Pentester</span></span></h1>
         <p class="lead">
           I build secure, responsive, and modern digital experiences across web and mobile.
           My focus areas include penetration testing, web vulnerability analysis, frontend interfaces,
@@ -516,11 +653,13 @@
       <div class="hero-panel reveal">
         <div class="glass-card main-card">
           <div class="profile-top">
-            <div class="avatar">CG</div>
+            <div class="avatar-wrapper">
+              <img src="profile_0.png" alt="Chellaguru G" />
+            </div>
             <div>
               <h3>Chellaguru G</h3>
               <p>Information Technology Student</p>
-              <div class="signal"><span></span> Open to Cybersecurity / Frontend / Android roles</div>
+              <div class="signal"><span></span> Open to Web Dev & Pentester roles</div>
             </div>
           </div>
 
@@ -529,6 +668,16 @@
             <div class="stat"><strong>2025</strong><span>Security internship</span></div>
             <div class="stat"><strong>3</strong><span>Core domains</span></div>
             <div class="stat"><strong>8+</strong><span>Tools & languages</span></div>
+          </div>
+
+          <div class="cyber-terminal">
+            <div class="terminal-header">
+              <span class="dot red"></span>
+              <span class="dot yellow"></span>
+              <span class="dot green"></span>
+              <span class="terminal-title">kali@pentester:~</span>
+            </div>
+            <div class="terminal-body" id="cyber-terminal-body"></div>
           </div>
         </div>
 
@@ -579,10 +728,10 @@
           I aim to create clean, responsive, and practical solutions that look professional and work well.
         </p>
         <div class="pill-row">
-          <span class="pill">Web Security</span>
-          <span class="pill">Responsive UI</span>
-          <span class="pill">Android UI</span>
-          <span class="pill">Portfolio Design</span>
+          <span class="pill">Problem Solver</span>
+          <span class="pill">Team & Time Mgmt</span>
+          <span class="pill">AI Prompt Creator</span>
+          <span class="pill">Vibe Coder</span>
         </div>
       </div>
     </div>
@@ -601,22 +750,26 @@
         <div class="pill-row">
           <span class="pill">Kali Linux</span>
           <span class="pill">Burp Suite</span>
-          <span class="pill">Nessus</span>
+          <span class="pill">Nessus Pro</span>
           <span class="pill">Metasploit</span>
           <span class="pill">Nmap</span>
+          <span class="pill">OWASP</span>
+          <span class="pill">Wireshark</span>
+          <span class="pill">DVWA</span>
         </div>
       </div>
 
       <div class="card reveal">
-        <h3>Frontend Development</h3>
-        <p class="muted">Modern, responsive websites with smooth interactions and clean UI structure.</p>
+        <h3>Programming & Web Dev</h3>
+        <p class="muted">Frontend development, responsive design, and solid programming logic across various languages.</p>
         <div class="pill-row">
-          <span class="pill">HTML</span>
-          <span class="pill">CSS</span>
+          <span class="pill">HTML & CSS</span>
           <span class="pill">JavaScript</span>
-          <span class="pill">Shell Script</span>
-          <span class="pill">Responsive Design</span>
-          <span class="pill">UI Components</span>
+          <span class="pill">Python</span>
+          <span class="pill">Java</span>
+          <span class="pill">C & C++</span>
+          <span class="pill">SQL</span>
+          <span class="pill">Git & GitHub</span>
         </div>
       </div>
 
@@ -666,21 +819,20 @@
     </div>
     <div class="card timeline reveal">
       <div class="timeline-item">
-        <h3>Security Analyst Intern — YHills | TechMaghi</h3>
+        <h3>Web Development Intern — NoviTech R&D Private Limited</h3>
+        <p class="muted">Dec 2025 – Jan 2026</p>
+        <p class="muted">
+          Gained practical experience in frontend development and responsive design. Contributed to building and optimizing web applications.
+        </p>
+      </div>
+      <div class="timeline-item">
+        <h3>Security Analyst Intern — YHills & TechMaghi</h3>
         <p class="muted">2025</p>
         <p class="muted">
           Completed hands-on training in ethical hacking and cybersecurity, focusing on penetration testing and vulnerability assessment.
         </p>
-      </div>
-      <div class="timeline-item">
-        <p class="muted">
-          Worked with Windows and Ubuntu password testing, Metasploit exploitation, Nessus Pro and Spider scans,
-          Burp Suite web testing, and Kali Linux environments.
-        </p>
-      </div>
-      <div class="timeline-item">
-        <p class="muted">
-          Used HTML, JavaScript, Python, C, and C++ for scripting and technical understanding, and prepared vulnerability reports using Microsoft Office tools.
+        <p class="muted" style="margin-top: 8px;">
+          Conducted exploitation using Metasploit, performed vulnerability scanning with Nessus Pro, and identified web vulnerabilities utilizing Burp Suite.
         </p>
       </div>
     </div>
@@ -692,19 +844,36 @@
       <p>Use this space to show both web and mobile work with a premium layout.</p>
     </div>
 
-    <div class="grid-2">
+    <div class="grid-3">
+      <div class="card reveal">
+        <div class="project-top">
+          <h3>SentinelX</h3>
+          <span class="project-badge">Android / AI</span>
+        </div>
+        <p class="muted">
+          An AI-Based Payment Security Platform developed using Android Studio tools to enhance transaction safety.
+        </p>
+        <div class="pill-row">
+          <span class="pill">Android Studio</span>
+          <span class="pill">AI Integration</span>
+          <span class="pill">Payment Security</span>
+        </div>
+        <div class="project-links">
+          <a class="link-btn" href="#projects">Details</a>
+        </div>
+      </div>
+
       <div class="card reveal">
         <div class="project-top">
           <h3>PhishGuard</h3>
-          <span class="project-badge">Cybersecurity / Web</span>
+          <span class="project-badge">Cybersecurity</span>
         </div>
         <p class="muted">
-          A web security project that demonstrates awareness, secure thinking, and practical cybersecurity learning.
+          A dedicated Phishing Awareness Website designed to educate users on cybersecurity threats.
         </p>
         <div class="pill-row">
           <span class="pill">Web Security</span>
-          <span class="pill">GitHub Pages</span>
-          <span class="pill">Awareness Tool</span>
+          <span class="pill">Awareness</span>
         </div>
         <div class="project-links">
           <a class="link-btn" href="https://black-panda-08.github.io/phishguard/" target="_blank" rel="noreferrer">Live Demo</a>
@@ -718,16 +887,14 @@
           <span class="project-badge">Frontend</span>
         </div>
         <p class="muted">
-          A modern responsive portfolio design showcasing skills, experience, and developer identity in one place.
+          A modern responsive portfolio design showcasing skills, experience, and developer identity.
         </p>
         <div class="pill-row">
-          <span class="pill">HTML</span>
-          <span class="pill">CSS</span>
+          <span class="pill">HTML/CSS</span>
           <span class="pill">JavaScript</span>
         </div>
         <div class="project-links">
           <a class="link-btn" href="#contact">Contact</a>
-          <a class="link-btn" href="#frontend">View Frontend Work</a>
         </div>
       </div>
     </div>
@@ -793,14 +960,26 @@
       <h2>Achievements</h2>
       <p>Keep this short and sharp for fast reading.</p>
     </div>
-    <div class="grid-2">
+    <div class="grid-3">
       <div class="card reveal">
-        <h3>Ethical Hacking Achievement</h3>
-        <p class="muted">YHills • 2025</p>
+        <h3>Web Dev Internship Cert.</h3>
+        <p class="muted">NoviTech R&D • 2026</p>
       </div>
       <div class="card reveal">
-        <h3>Cyber Security Achievement</h3>
-        <p class="muted">Tech Maghi • 2025</p>
+        <h3>Cybersecurity Workshop</h3>
+        <p class="muted">CISL • 2026</p>
+      </div>
+      <div class="card reveal">
+        <h3>Ethical Hacking for Beginners</h3>
+        <p class="muted">GUVI & HCL • 2025</p>
+      </div>
+      <div class="card reveal">
+        <h3>Cyber Security & Ethical Hacking</h3>
+        <p class="muted">TechMaghi • 2025</p>
+      </div>
+      <div class="card reveal">
+        <h3>Cyber Security Program</h3>
+        <p class="muted">YHills • 2025</p>
       </div>
     </div>
   </section>
@@ -861,7 +1040,16 @@
     <p>© 2026 Chellaguru G. Built as a modern cybersecurity, frontend, and Android portfolio.</p>
   </footer>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
   <script>
+    VanillaTilt.init(document.querySelectorAll(".card, .glass-card, .btn"), {
+      max: 12,
+      speed: 400,
+      glare: true,
+      "max-glare": 0.15,
+      scale: 1.02
+    });
+
     function downloadResume() {
       const btn = document.getElementById('downloadResumeBtn');
       const original = btn.innerHTML;
@@ -911,6 +1099,148 @@
     }, { threshold: 0.15 });
 
     document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+    // Cursor Glow
+    const cursorGlow = document.querySelector('.cursor-glow');
+    window.addEventListener('mousemove', (e) => {
+      cursorGlow.style.left = e.clientX + 'px';
+      cursorGlow.style.top = e.clientY + 'px';
+    });
+
+    // Cyber AI Particle Network Background
+    const canvas = document.getElementById('cyberCanvas');
+    const ctx = canvas.getContext('2d');
+    let width, height, particles = [];
+    const mouse = { x: null, y: null, radius: 150 };
+
+    window.addEventListener('mousemove', (e) => {
+      mouse.x = e.x;
+      mouse.y = e.y;
+    });
+
+    function resize() {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    class Particle {
+      constructor() {
+        this.x = Math.random() * width;
+        this.y = Math.random() * height;
+        this.size = Math.random() * 2 + 1;
+        this.speedX = Math.random() * 1.5 - 0.75;
+        this.speedY = Math.random() * 1.5 - 0.75;
+        this.color = Math.random() > 0.5 ? '#2ee6a6' : '#a855f7';
+      }
+      update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+        if (this.x > width || this.x < 0) this.speedX *= -1;
+        if (this.y > height || this.y < 0) this.speedY *= -1;
+        
+        let dx = mouse.x - this.x;
+        let dy = mouse.y - this.y;
+        let distance = Math.sqrt(dx * dx + dy * dy);
+        
+        if (distance < mouse.radius) {
+          const force = (mouse.radius - distance) / mouse.radius;
+          this.x -= (dx / distance) * force * 4;
+          this.y -= (dy / distance) * force * 4;
+        }
+      }
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = this.color;
+        ctx.fill();
+      }
+    }
+
+    function initParticles() {
+      particles = [];
+      let num = Math.min((width * height) / 10000, 150);
+      for (let i = 0; i < num; i++) particles.push(new Particle());
+    }
+
+    function animateParticles() {
+      ctx.clearRect(0, 0, width, height);
+      for (let i = 0; i < particles.length; i++) {
+        particles[i].update();
+        particles[i].draw();
+        
+        for (let j = i; j < particles.length; j++) {
+          let dx = particles[i].x - particles[j].x;
+          let dy = particles[i].y - particles[j].y;
+          let distance = Math.sqrt(dx * dx + dy * dy);
+          if (distance < 120) {
+            ctx.beginPath();
+            ctx.strokeStyle = particles[i].color;
+            ctx.lineWidth = 0.4;
+            ctx.globalAlpha = 1 - (distance/120);
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.stroke();
+            ctx.globalAlpha = 1;
+          }
+        }
+      }
+      requestAnimationFrame(animateParticles);
+    }
+    
+    initParticles();
+    animateParticles();
+
+    // Cyber Terminal Typing Effect
+    const terminalLogs = [
+      "[+] Initiating stealth scan on target...",
+      "[*] Running Nmap stealth SYN scan",
+      "[+] Port 80/tcp open (http)",
+      "[+] Port 443/tcp open (https)",
+      "[*] Launching vulnerability assessment...",
+      "[!] Warning: Outdated TLS version detected",
+      "[*] Injecting payload (SQLi test)...",
+      "[+] SQL Injection vulnerability confirmed",
+      "[*] Extracting database schema...",
+      "[+] Privilege escalation successful (root)",
+      "[*] System fully compromised. Generating report."
+    ];
+    
+    const terminalBody = document.getElementById('cyber-terminal-body');
+    let logIndex = 0;
+    
+    function addTerminalLine() {
+      if (logIndex >= terminalLogs.length) {
+        logIndex = 0;
+        terminalBody.innerHTML = ''; // restart
+      }
+      
+      const lineText = terminalLogs[logIndex];
+      const lineDiv = document.createElement('div');
+      lineDiv.className = 'terminal-line';
+      
+      if (lineText.includes('[!]')) lineDiv.classList.add('warning');
+      if (lineText.includes('compromised') || lineText.includes('vulnerability confirmed')) lineDiv.classList.add('error');
+      if (lineText.includes('[+]')) lineDiv.classList.add('success');
+      
+      lineDiv.textContent = lineText;
+      
+      const oldCursor = document.querySelector('.terminal-cursor');
+      if (oldCursor) oldCursor.remove();
+      
+      const cursor = document.createElement('span');
+      cursor.className = 'terminal-cursor';
+      lineDiv.appendChild(cursor);
+      
+      terminalBody.appendChild(lineDiv);
+      terminalBody.scrollTop = terminalBody.scrollHeight;
+      
+      logIndex++;
+      setTimeout(addTerminalLine, Math.random() * 800 + 400);
+    }
+    
+    if (terminalBody) setTimeout(addTerminalLine, 1000);
   </script>
 </body>
 </html>
