@@ -1,8 +1,17 @@
+"""One-time utility: extract embedded images (e.g. profile photo) from the resume PDF.
+
+Not part of the deployed website. Requires: pip install pymupdf
+Run from anywhere:  python scripts/extract_image.py
+"""
+from pathlib import Path
+
 import fitz
 import sys
 
+RESUME = Path(__file__).resolve().parent.parent / "Guru.pdf"
+
 try:
-    doc = fitz.open("Chellaguru_G_Resume.pdf")
+    doc = fitz.open(str(RESUME))
     count = 0
     for i in range(len(doc)):
         for img in doc.get_page_images(i):

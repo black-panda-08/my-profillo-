@@ -9,7 +9,8 @@
     content="Portfolio of Chellaguru G showcasing web & app development and cybersecurity pentesting.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap"
     rel="stylesheet">
   <style>
     :root {
@@ -593,13 +594,19 @@
 
     .reveal {
       opacity: 0;
-      transform: translateY(16px);
+      transform: translateY(26px) rotateX(10deg);
+      transform-origin: 50% 0;
       transition: .7s ease;
     }
 
     .reveal.show {
       opacity: 1;
       transform: none;
+    }
+
+    main,
+    section {
+      perspective: 1200px;
     }
 
     #cyberCanvas {
@@ -711,11 +718,11 @@
 
       0%,
       100% {
-        transform: translateY(0)
+        transform: translateZ(var(--z, 0)) translateY(0)
       }
 
       50% {
-        transform: translateY(-10px)
+        transform: translateZ(var(--z, 0)) translateY(-10px)
       }
     }
 
@@ -770,6 +777,16 @@
 
       .hero {
         padding-top: 72px
+      }
+
+      .hero-panel {
+        min-height: 0;
+        padding: 0;
+      }
+
+      .glass-card.main-card {
+        position: relative;
+        inset: auto;
       }
 
       .mini-card {
@@ -885,6 +902,74 @@
     .btn:hover {
       transform: translateY(-3px) translateZ(20px);
     }
+
+    /* ===== Immersive 3D scene upgrades ===== */
+    h1,
+    h2,
+    h3,
+    .brand {
+      font-family: 'Space Grotesk', 'Inter', system-ui, sans-serif;
+    }
+
+    /* Hero panel reacts to the mouse as one layered 3D object */
+    .hero-panel {
+      transform: perspective(1400px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+      transition: transform .3s ease-out;
+      transform-style: preserve-3d;
+      will-change: transform;
+    }
+
+    .hero-panel.in-view {
+      transition: transform .18s ease-out;
+    }
+
+    /* Mini cards float at different depths inside the panel */
+    .mini-card.top-left {
+      --z: 70px
+    }
+
+    .mini-card.top-right {
+      --z: 45px
+    }
+
+    .mini-card.bottom-left {
+      --z: 55px
+    }
+
+    .mini-card.bottom-right {
+      --z: 85px
+    }
+
+    /* Subtle depth tilt on section headings */
+    .section-head h2 {
+      display: inline-block;
+      transition: transform .4s ease, text-shadow .4s ease;
+    }
+
+    .section-head h2:hover {
+      transform: perspective(800px) rotateX(6deg) rotateY(-4deg) translateZ(10px);
+      text-shadow: 0 18px 40px rgba(46, 230, 166, .25);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+
+      *,
+      *::before,
+      *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+      }
+
+      .hero-panel {
+        transform: none !important;
+      }
+
+      .reveal {
+        opacity: 1;
+        transform: none;
+      }
+    }
   </style>
 </head>
 
@@ -912,7 +997,7 @@
         <a href="#experience">Experience</a>
         <a href="#projects">Projects</a>
         <a href="#android">Android</a>
-        <a href="#frontend">Frontend</a>
+        <a href="#achievements">Achievements</a>
         <a href="#education">Education</a>
         <a href="#contact">Contact</a>
         <a class="nav-cta" href="#contact">Hire Me</a>
@@ -1055,7 +1140,7 @@
           <span class="pill">JavaScript</span>
           <span class="pill">Python</span>
           <span class="pill">Java</span>
-          <span class="pill">C & C++</span>
+          <span class="pill">C Programming</span>
           <span class="pill">SQL</span>
           <span class="pill">Git & GitHub</span>
         </div>
@@ -1169,7 +1254,7 @@
         <div class="project-links">
           <a class="link-btn" href="https://black-panda-08.github.io/phishguard/" target="_blank" rel="noreferrer">Live
             Demo</a>
-          <a class="link-btn" href="https://github.com/black-panda-08" target="_blank" rel="noreferrer">GitHub</a>
+          <a class="link-btn" href="https://github.com/black-panda-08/phishguard" target="_blank" rel="noreferrer">GitHub</a>
         </div>
       </div>
 
@@ -1335,6 +1420,7 @@
     <p>© 2026 Chellaguru G. Built as a modern cybersecurity, frontend, and Android portfolio.</p>
   </footer>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
   <script>
     VanillaTilt.init(document.querySelectorAll(".card, .glass-card, .btn"), {
@@ -1402,90 +1488,200 @@
       cursorGlow.style.top = e.clientY + 'px';
     });
 
-    // Cyber AI Particle Network Background
-    const canvas = document.getElementById('cyberCanvas');
-    const ctx = canvas.getContext('2d');
-    let width, height, particles = [];
-    const mouse = { x: null, y: null, radius: 150 };
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    window.addEventListener('mousemove', (e) => {
-      mouse.x = e.x;
-      mouse.y = e.y;
-    });
+    // ===== Immersive 3D Background (Three.js with 2D particle fallback) =====
+    (function initBackground() {
+      const canvas = document.getElementById('cyberCanvas');
+      const smallScreen = window.matchMedia('(max-width: 820px)').matches;
 
-    function resize() {
-      width = canvas.width = window.innerWidth;
-      height = canvas.height = window.innerHeight;
-    }
-    window.addEventListener('resize', resize);
-    resize();
+      if (window.THREE) {
+        try {
+          const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+          renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+          renderer.setSize(window.innerWidth, window.innerHeight);
 
-    class Particle {
-      constructor() {
-        this.x = Math.random() * width;
-        this.y = Math.random() * height;
-        this.size = Math.random() * 2 + 1;
-        this.speedX = Math.random() * 1.5 - 0.75;
-        this.speedY = Math.random() * 1.5 - 0.75;
-        this.color = Math.random() > 0.5 ? '#2ee6a6' : '#a855f7';
+          const scene = new THREE.Scene();
+          const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 100);
+          camera.position.z = 9;
+
+          // Wireframe 3D shapes — cyber "holograms"
+          const ico = new THREE.Mesh(
+            new THREE.IcosahedronGeometry(2.4, 1),
+            new THREE.MeshBasicMaterial({ color: 0x2ee6a6, wireframe: true, transparent: true, opacity: 0.16 })
+          );
+          ico.position.set(-5.2, 0.4, -1);
+          scene.add(ico);
+
+          const knot = new THREE.Mesh(
+            new THREE.TorusKnotGeometry(1.5, 0.42, 90, 14),
+            new THREE.MeshBasicMaterial({ color: 0x5aa7ff, wireframe: true, transparent: true, opacity: 0.12 })
+          );
+          knot.position.set(5.4, -1.6, -2);
+          scene.add(knot);
+
+          const octa = new THREE.Mesh(
+            new THREE.OctahedronGeometry(1.1, 0),
+            new THREE.MeshBasicMaterial({ color: 0xa855f7, wireframe: true, transparent: true, opacity: 0.18 })
+          );
+          octa.position.set(1.8, 3.4, -3);
+          scene.add(octa);
+
+          // 3D particle starfield
+          const count = smallScreen ? 350 : 700;
+          const positions = new Float32Array(count * 3);
+          const colors = new Float32Array(count * 3);
+          const palette = [new THREE.Color(0x2ee6a6), new THREE.Color(0x5aa7ff), new THREE.Color(0xa855f7)];
+          for (let i = 0; i < count; i++) {
+            positions[i * 3] = (Math.random() - 0.5) * 26;
+            positions[i * 3 + 1] = (Math.random() - 0.5) * 16;
+            positions[i * 3 + 2] = (Math.random() - 0.5) * 10;
+            const c = palette[Math.floor(Math.random() * palette.length)];
+            colors[i * 3] = c.r; colors[i * 3 + 1] = c.g; colors[i * 3 + 2] = c.b;
+          }
+          const starGeo = new THREE.BufferGeometry();
+          starGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+          starGeo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+          const stars = new THREE.Points(starGeo, new THREE.PointsMaterial({ size: 0.05, vertexColors: true, transparent: true, opacity: 0.85 }));
+          scene.add(stars);
+
+          // Camera parallax follows the mouse and the scroll
+          let mx = 0, my = 0;
+          window.addEventListener('mousemove', (e) => {
+            mx = (e.clientX / window.innerWidth - 0.5) * 2;
+            my = (e.clientY / window.innerHeight - 0.5) * 2;
+          }, { passive: true });
+
+          window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+          });
+
+          const clock = new THREE.Clock();
+          function tick() {
+            const t = clock.getElapsedTime();
+            ico.rotation.x = t * 0.12; ico.rotation.y = t * 0.16;
+            knot.rotation.x = t * 0.10; knot.rotation.y = t * 0.08;
+            octa.rotation.y = t * 0.20; octa.rotation.x = t * 0.06;
+            stars.rotation.y = t * 0.015;
+
+            const scrollDrift = window.scrollY * 0.0012;
+            camera.position.x += (mx * 0.9 - camera.position.x) * 0.05;
+            camera.position.y += (-my * 0.6 - scrollDrift - camera.position.y) * 0.05;
+            camera.lookAt(scene.position);
+
+            renderer.render(scene, camera);
+            if (!reduceMotion) requestAnimationFrame(tick);
+          }
+          tick();
+          return; // 3D scene active
+        } catch (e) { /* WebGL unavailable — fall back to 2D particles */ }
       }
-      update() {
-        this.x += this.speedX;
-        this.y += this.speedY;
-        if (this.x > width || this.x < 0) this.speedX *= -1;
-        if (this.y > height || this.y < 0) this.speedY *= -1;
 
-        let dx = mouse.x - this.x;
-        let dy = mouse.y - this.y;
-        let distance = Math.sqrt(dx * dx + dy * dy);
+      // --- 2D particle network fallback ---
+      const ctx = canvas.getContext('2d');
+      let width, height, particles = [];
+      const mouse = { x: null, y: null, radius: 150 };
 
-        if (distance < mouse.radius) {
-          const force = (mouse.radius - distance) / mouse.radius;
-          this.x -= (dx / distance) * force * 4;
-          this.y -= (dy / distance) * force * 4;
+      window.addEventListener('mousemove', (e) => {
+        mouse.x = e.x;
+        mouse.y = e.y;
+      });
+
+      function resizeBg() {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+      }
+      window.addEventListener('resize', resizeBg);
+      resizeBg();
+
+      class Particle {
+        constructor() {
+          this.x = Math.random() * width;
+          this.y = Math.random() * height;
+          this.size = Math.random() * 2 + 1;
+          this.speedX = Math.random() * 1.5 - 0.75;
+          this.speedY = Math.random() * 1.5 - 0.75;
+          this.color = Math.random() > 0.5 ? '#2ee6a6' : '#a855f7';
         }
-      }
-      draw() {
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fillStyle = this.color;
-        ctx.fill();
-      }
-    }
+        update() {
+          this.x += this.speedX;
+          this.y += this.speedY;
+          if (this.x > width || this.x < 0) this.speedX *= -1;
+          if (this.y > height || this.y < 0) this.speedY *= -1;
 
-    function initParticles() {
-      particles = [];
-      let num = Math.min((width * height) / 10000, 150);
-      for (let i = 0; i < num; i++) particles.push(new Particle());
-    }
-
-    function animateParticles() {
-      ctx.clearRect(0, 0, width, height);
-      for (let i = 0; i < particles.length; i++) {
-        particles[i].update();
-        particles[i].draw();
-
-        for (let j = i; j < particles.length; j++) {
-          let dx = particles[i].x - particles[j].x;
-          let dy = particles[i].y - particles[j].y;
+          let dx = mouse.x - this.x;
+          let dy = mouse.y - this.y;
           let distance = Math.sqrt(dx * dx + dy * dy);
-          if (distance < 120) {
-            ctx.beginPath();
-            ctx.strokeStyle = particles[i].color;
-            ctx.lineWidth = 0.4;
-            ctx.globalAlpha = 1 - (distance / 120);
-            ctx.moveTo(particles[i].x, particles[i].y);
-            ctx.lineTo(particles[j].x, particles[j].y);
-            ctx.stroke();
-            ctx.globalAlpha = 1;
+
+          if (distance < mouse.radius) {
+            const force = (mouse.radius - distance) / mouse.radius;
+            this.x -= (dx / distance) * force * 4;
+            this.y -= (dy / distance) * force * 4;
           }
         }
+        draw() {
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+          ctx.fillStyle = this.color;
+          ctx.fill();
+        }
       }
-      requestAnimationFrame(animateParticles);
-    }
 
-    initParticles();
-    animateParticles();
+      function initParticles() {
+        particles = [];
+        let num = Math.min((width * height) / 10000, 150);
+        for (let i = 0; i < num; i++) particles.push(new Particle());
+      }
+
+      function animateParticles() {
+        ctx.clearRect(0, 0, width, height);
+        for (let i = 0; i < particles.length; i++) {
+          particles[i].update();
+          particles[i].draw();
+
+          for (let j = i; j < particles.length; j++) {
+            let dx = particles[i].x - particles[j].x;
+            let dy = particles[i].y - particles[j].y;
+            let distance = Math.sqrt(dx * dx + dy * dy);
+            if (distance < 120) {
+              ctx.beginPath();
+              ctx.strokeStyle = particles[i].color;
+              ctx.lineWidth = 0.4;
+              ctx.globalAlpha = 1 - (distance / 120);
+              ctx.moveTo(particles[i].x, particles[i].y);
+              ctx.lineTo(particles[j].x, particles[j].y);
+              ctx.stroke();
+              ctx.globalAlpha = 1;
+            }
+          }
+        }
+        requestAnimationFrame(animateParticles);
+      }
+
+      initParticles();
+      animateParticles();
+    })();
+
+    // ===== Hero panel 3D parallax (desktop, respects reduced motion) =====
+    const heroPanel = document.querySelector('.hero-panel');
+    const heroEl = document.querySelector('.hero');
+    if (heroPanel && heroEl && !reduceMotion
+      && window.matchMedia('(pointer: fine)').matches && window.innerWidth > 980) {
+      heroEl.addEventListener('mousemove', (e) => {
+        const r = heroPanel.getBoundingClientRect();
+        const px = (e.clientX - r.left - r.width / 2) / r.width;
+        const py = (e.clientY - r.top - r.height / 2) / r.height;
+        heroPanel.style.setProperty('--ry', (px * 7).toFixed(2) + 'deg');
+        heroPanel.style.setProperty('--rx', (-py * 7).toFixed(2) + 'deg');
+        heroPanel.classList.add('in-view');
+      });
+      heroEl.addEventListener('mouseleave', () => {
+        heroPanel.style.setProperty('--rx', '0deg');
+        heroPanel.style.setProperty('--ry', '0deg');
+      });
+    }
 
     // Cyber Terminal Typing Effect
     const terminalLogs = [
